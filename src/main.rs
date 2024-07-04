@@ -40,15 +40,15 @@ async fn process(mut recver: Receiver<String>) {
         let start = Instant::now();
         let mut count = 0;
 
-        // let mut reader = ReaderBuilder::new().trim(Trim::All).has_headers(true).from_reader(csv.as_bytes());
-        //
-        // for res in reader.into_records() {
-        //     if let Err(e) = res {
-        //         panic!("Error reading record: {e}")
-        //     }
-        //
-        //     count += 1;
-        // }
+        let mut reader = ReaderBuilder::new().trim(Trim::All).has_headers(true).from_reader(csv.as_bytes());
+
+        for res in reader.into_records() {
+            if let Err(e) = res {
+                panic!("Error reading record: {e}")
+            }
+
+            count += 1;
+        }
 
         println!("Parsed {} records in {:0.3}s", count, Instant::now().duration_since(start).as_secs_f64());
     }
